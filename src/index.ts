@@ -32,8 +32,6 @@ app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-console.log(process.env.MONGODB_URI!);
-console.log(process.env.SERVER_PORT!);
 // Database connection
 mongoose
   .connect(process.env.MONGODB_URI!)
@@ -62,7 +60,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Start the server
-const PORT = process.env.SERVER_PORT || 80;
+const PORT = process.env.SERVER_PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
