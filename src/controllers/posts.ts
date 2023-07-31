@@ -127,6 +127,8 @@ export const saveNewPost = async (req: Request, res: Response) => {
 
     // Create a new post associated with the user (userId is set by the middleware)
     const newPost = new Post({ text, photo, userId: userId });
+    console.log(newPost);
+    
     await newPost.save();
 
     res.status(201).json({ message: 'Post created successfully' });
