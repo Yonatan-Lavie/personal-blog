@@ -60,7 +60,7 @@ jobs:
 
       - name: Start Express.js server on EC2
         run: |
-          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && pm2 start -f dist/index.js --name my-node-server --env production"
+          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "export MONGODB_URI='${{ secrets.MONGODB_URI }}' && cd /home/${{ secrets.USER_NAME }}/app && pm2 start -f dist/index.js --name my-node-server --env production"
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
