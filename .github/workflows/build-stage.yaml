@@ -16,19 +16,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '18.x'
 
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.EC2_INSTANCE_IP }} >> ~/.ssh/known_hosts
+
       - name: Copy build artifacts to EC2
         run: |
           # Replace EC2_INSTANCE_IP with your actual EC2 instance's public IP or domain name
           # Replace USER_NAME with your server's username
           # Replace /path/to/your/app with the location of your Express.js app
-          scp -r ./build ec2-user@54.95.132.127:/app
+          scp -r ./build ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }}:/app
         env:
           # API_KEY: ${{ secrets.API_KEY }}
           # DATABASE_URL: ${{ secrets.DATABASE_URL }}
