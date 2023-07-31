@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from "path";
 
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger.json';
@@ -32,6 +33,10 @@ app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Serve the React app's static files
+const buildPath = path.join(__dirname, "..", "build"); // Path to the 'build' folder
+app.use(express.static(buildPath));
+
 // Database connection
 mongoose
   .connect(process.env.MONGODB_URI!)
@@ -47,6 +52,11 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
+
+// Catch-all route to handle other requests and serve the React app
+app.get("/", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
 
 // 404 Route
 app.use((req: Request, res: Response) => {
