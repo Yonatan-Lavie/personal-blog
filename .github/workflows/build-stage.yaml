@@ -30,6 +30,9 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ secrets.EC2_INSTANCE_IP }} >> ~/.ssh/known_hosts
 
+      - name: Debug PATH
+        run: echo $PATH
+        
       - name: Copy build artifacts to EC2
         run: |
           # Replace EC2_INSTANCE_IP with your actual EC2 instance's public IP or domain name
