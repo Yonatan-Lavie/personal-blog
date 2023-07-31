@@ -38,13 +38,13 @@ jobs:
           scp -r ./dist package.json package-lock.json ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }}:/home/${{ secrets.USER_NAME }}/app
         env:
           # API_KEY: ${{ secrets.API_KEY }}
-          # DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Start Express.js server
         run: |
-          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && npm install && node server.js"
+          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && npm install && node index.js"
         env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
