@@ -53,10 +53,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Stop the current PM2 process
-        run: pm2 stop all || true
+        run: ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "pm2 stop all || true"
 
       - name: Delete the current PM2 process
-        run: pm2 delete all || true
+        run: ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "pm2 delete all || true"
 
       - name: Start Express.js server on EC2
         run: |
