@@ -30,9 +30,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ secrets.EC2_INSTANCE_IP }} >> ~/.ssh/known_hosts
 
-      - name: Debug PATH
-        run: echo $PATH
-
       - name: Copy build artifacts to EC2
         run: |
           # Replace EC2_INSTANCE_IP with your actual EC2 instance's public IP or domain name
@@ -60,8 +57,13 @@ jobs:
 
       - name: Start Express.js server on EC2
         run: |
-          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "export MONGODB_URI='${{ secrets.MONGODB_URI }}' && cd /home/${{ secrets.USER_NAME }}/app && pm2 start -f dist/index.js --name my-node-server --env production"
+          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "\
+           export PUBLIC_DOMAIN_NAME='${{ secrets.PUBLIC_DOMAIN_NAME}}' \
+           && export MONGODB_URI='${{ secrets.MONGODB_URI }}' \
+           && cd /home/${{ secrets.USER_NAME }}/app \
+           && pm2 start -f dist/index.js --name my-node-server --env production"
         env:
+          PUBLIC_DOMAIN_NAME: ${{ secrets.PUBLIC_DOMAIN_NAME}}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

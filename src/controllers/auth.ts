@@ -28,7 +28,7 @@ const sendVerificationEmail = async (email: string, verificationId: string, user
     to: email, // Recipient email address.
     subject: 'Email Verification',
     text: `Thank you for registering! Please click the following link to verify your email: 
-      http://localhost:3000/api/verify/${verificationId}/${userId}`,
+      ${process.env.PUBLIC_DOMAIN_NAME}/api/auth/verify/${verificationId}/${userId}`,
     // You can use HTML format if needed.
   };
 

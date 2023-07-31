@@ -24,6 +24,9 @@ import { corsMiddleware } from './middlewares/cors-conf-middleware';
 // Create Express application
 export const app = express();
 
+
+//  Update with the current public domain
+swaggerDocument.servers[0].url = process.env.PUBLIC_DOMAIN_NAME!
 // Serve the Swagger UI at /api/docs
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
