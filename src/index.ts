@@ -55,6 +55,8 @@ app.use('/api/auth', authRoutes);
 
 // Catch-all route to handle other requests and serve the React app
 app.get("/", (req, res) => {
+  console.log("fdsfdfsdfdsfsdf");
+  
   res.sendFile(path.join(buildPath, "index.html"));
 });
 
