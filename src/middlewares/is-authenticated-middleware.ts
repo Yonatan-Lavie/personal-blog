@@ -9,6 +9,7 @@ export const isAuthenticatedMiddleware = (req: Request, res: Response, next: Nex
   try {
     const token = req.cookies.token;
     if (!token) {
+      console.log(`token is dosen't exist ${req.cookies} Error`);
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
