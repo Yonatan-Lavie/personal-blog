@@ -41,9 +41,17 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Start Express.js server
+      - name: Install Node.js dependencies on EC2
         run: |
-          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && npm install && node dist/index.js"
+          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && npm install"
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Start Express.js server on EC2
+        run: |
+          ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && node dist/index.js"
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
