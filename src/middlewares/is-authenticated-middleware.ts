@@ -16,6 +16,8 @@ export const isAuthenticatedMiddleware = (req: Request, res: Response, next: Nex
     req.userId = decodedToken.userId;
     next();
   } catch (error) {
+    console.log("isAuthenticatedMiddleware Error");
+    
     return res.status(401).json({ message: 'Unauthorized' });
   }
 };

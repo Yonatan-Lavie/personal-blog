@@ -14,26 +14,26 @@ import { isVerifiedUser } from '../middlewares/is-verified-user-middleware';
 const router = express.Router();
 
 // Middleware to ensure only authenticated and verified users can access the user profile page
-router.use(isAuthenticatedMiddleware, isVerifiedUser);
+// router.use(isAuthenticatedMiddleware, isVerifiedUser);
 
 // GET /api/posts
 router.get('/', getAllPosts);
 
 // POST /api/posts/:postId/like
-router.post('/:postId/like', addLikeToPost);
+router.post('/:postId/like', isAuthenticatedMiddleware, isVerifiedUser, addLikeToPost);
 
 // GET /api/posts/:postId/comments
-router.get('/:postId/comments', getCommentsForPost);
+router.get('/:postId/comments', isAuthenticatedMiddleware, isVerifiedUser, getCommentsForPost);
 
 router.get('/:postId', getPostById);
 
 // POST /api/comments/:commentId/like
-router.post('/comments/:commentId/like', addLikeToComment);
+router.post('/comments/:commentId/like', isAuthenticatedMiddleware, isVerifiedUser, addLikeToComment);
 
 // POST /api/posts/:postId/comments
-router.post('/:postId/comments', updatePostWithComment);
+router.post('/:postId/comments', isAuthenticatedMiddleware, isVerifiedUser, updatePostWithComment);
 
 // POST /api/posts
-router.post('/', saveNewPost);
+router.post('/', isAuthenticatedMiddleware, isVerifiedUser, saveNewPost);
 
 export default router;
