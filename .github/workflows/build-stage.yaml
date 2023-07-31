@@ -57,6 +57,6 @@ jobs:
           ssh ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }} "cd /home/${{ secrets.USER_NAME }}/app && nvm use 16.20.1 && pm2 restart dist/index.js -f --watch"
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          PORT: ${{ secrets.PORT }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
