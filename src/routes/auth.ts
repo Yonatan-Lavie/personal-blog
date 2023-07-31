@@ -1,23 +1,26 @@
 import express from 'express';
-import { signupUser, verifyEmail, signinUser, signoutUser, resetPassword } from '../controllers/auth';
+import { signupUser, verifyEmail, signinUser, signoutUser, resetPassword, verifyUser } from '../controllers/auth';
 import { isAuthenticatedMiddleware } from '../middlewares/is-authenticated-middleware';
 import { isVerifiedUser } from '../middlewares/is-verified-user-middleware';
 
 const router = express.Router();
 
-// POST /api/signup
+// POST /api/auth/signup
 router.post('/signup', signupUser);
 
-// GET /api/verify/:uniqueIdentifier
+// GET /api/auth/verify/:uniqueIdentifier
 router.get('/verify/:uniqueIdentifier', verifyEmail);
 
-// POST /api/signin
+// GET /api/auth/verify
+router.get('/verify',isAuthenticatedMiddleware, isVerifiedUser, verifyUser);
+
+// POST /api/auth/signin
 router.post('/signin', signinUser);
 
-// GET /api/signout
+// GET /api/auth/signout
 router.get('/signout',isAuthenticatedMiddleware, isVerifiedUser, signoutUser);
 
-// POST /api/reset-password
+// POST /api/auth/reset-password
 router.post('/reset-password',isAuthenticatedMiddleware, isVerifiedUser,  resetPassword);
 
 export default router;

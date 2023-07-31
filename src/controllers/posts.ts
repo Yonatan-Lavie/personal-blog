@@ -60,6 +60,20 @@ export const getCommentsForPost = async (req: Request, res: Response) => {
   }
 };
 
+// Controller for getting comments for a post
+export const getPostById = async (req: Request, res: Response) => {
+  try {
+    console.log(req.params);
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+
+    res.status(200).json({ post });
+  } catch (error) {
+    console.error('Error while fetching comments for post:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 // Controller for adding a like to a comment
 export const addLikeToComment = async (req: Request, res: Response) => {
   try {

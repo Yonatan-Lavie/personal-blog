@@ -6,6 +6,7 @@ import {
   addLikeToComment,
   updatePostWithComment,
   saveNewPost,
+  getPostById,
 } from '../controllers/posts';
 import { isAuthenticatedMiddleware } from '../middlewares/is-authenticated-middleware';
 import { isVerifiedUser } from '../middlewares/is-verified-user-middleware';
@@ -23,6 +24,8 @@ router.post('/:postId/like', addLikeToPost);
 
 // GET /api/posts/:postId/comments
 router.get('/:postId/comments', getCommentsForPost);
+
+router.get('/:postId', getPostById);
 
 // POST /api/comments/:commentId/like
 router.post('/comments/:commentId/like', addLikeToComment);

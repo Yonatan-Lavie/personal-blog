@@ -139,6 +139,26 @@ export const signoutUser = (req: Request, res: Response) => {
 };
 
 // Controller for handling password reset
+export const verifyUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req;
+
+    // Find the user by id
+    const user = await User.findById({ _id:userId });
+
+    // If the user is not found, return an error to avoid revealing user existence
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate a reset password link and send it in an email (you should implement this part)
+
+    res.status(200).json({ userRole: user.role });
+  } catch (error) {
+    console.error('Error during verifing User:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 export const resetPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -159,3 +179,4 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
