@@ -35,7 +35,7 @@ jobs:
           # Replace EC2_INSTANCE_IP with your actual EC2 instance's public IP or domain name
           # Replace USER_NAME with your server's username
           # Replace /path/to/your/app with the location of your Express.js app
-          scp -r ./dist ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }}:/app
+          scp -r ./dist ${{ secrets.USER_NAME }}@${{ secrets.EC2_INSTANCE_IP }}:/home/${{ secrets.USER_NAME }}/app
         env:
           # API_KEY: ${{ secrets.API_KEY }}
           # DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -44,7 +44,7 @@ jobs:
 
       - name: Start Express.js server
         run: |
-          ssh ec2-user@54.95.132.127 "cd /app && npm install && node server.js"
+          ssh ec2-user@54.95.132.127 "cd /home/${{ secrets.USER_NAME }}/app && npm install && node server.js"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
