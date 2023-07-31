@@ -32,6 +32,8 @@ app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+console.log(process.env.MONGODB_URI!);
+console.log(process.env.PORT!);
 // Database connection
 mongoose
   .connect(process.env.MONGODB_URI!)
